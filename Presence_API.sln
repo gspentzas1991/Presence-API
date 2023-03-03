@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33417.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presence_API", "Presence_API.csproj", "{7B0AFD26-03B2-4966-9BA3-92A1CF1D0DBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B0AFD26-03B2-4966-9BA3-92A1CF1D0DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0AFD26-03B2-4966-9BA3-92A1CF1D0DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0AFD26-03B2-4966-9BA3-92A1CF1D0DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0AFD26-03B2-4966-9BA3-92A1CF1D0DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42D36811-EF31-4463-B267-B3522E08385F}
+	EndGlobalSection
+EndGlobal
