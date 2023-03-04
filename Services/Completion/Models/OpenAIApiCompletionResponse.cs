@@ -1,6 +1,6 @@
-﻿namespace Presence_API.Models
+﻿namespace Presence_API.Services.Completion.Models
 {
-    public class OpenAIApiResponse
+    public class OpenAIApiCompletionResponse
     {
         public string Id { get; set; }
         public string Object { get; set; }

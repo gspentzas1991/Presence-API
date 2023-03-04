@@ -1,5 +1,6 @@
 ﻿using Presence_API.Controllers;
 using Presence_API.Services.Completion;
+using Presence_API.Services.Completion.Models;
 using Presence_API.Services.Memory;
 using Presence_API.Services.TextToSpeech;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -25,9 +26,11 @@ namespace Presence_API.Middleware.Response
         public async Task<string> GetResponseInMemoryAsync(string chatPrompt)
         {
             chatPrompt = TruncatePrompt(chatPrompt);
-            var prompt = _memoryService.AddToMemory(Character.Chat, chatPrompt);
+            //Ask the filter if the question has bad words
+            var prompt = _memoryService.AddToMemory(ChatRole.user, chatPrompt);
             var response = await GetResponseAsync(prompt);
-            var completeMemory = _memoryService.AddToMemory(Character.Sara, response);
+            //Ask the filter if the question had bad words
+            var completeMemory = _memoryService.AddToMemory(ChatRole.assistant, response);
             return response;
         }
 

@@ -1,8 +1,9 @@
 ﻿using Presence_API.Controllers;
-using Presence_API.Models;
+using Presence_API.Services.Completion.Models;
 using Presence_API.Services.Memory;
 using System;
 using System.Net.Http.Headers;
+using TwitchLib.Api.Helix.Models.Charity.GetCharityCampaign;
 
 namespace Presence_API.Services.Completion
 {
@@ -21,13 +22,22 @@ namespace Presence_API.Services.Completion
             _logger = logger;
             _openAIApiKey = configuration["OpenAI:ApiKey"];
         }
-        public async Task<OpenAIApiResponse> GetPromptCompletionAsync(string prompt)
+        public async Task<OpenAIApiCompletionResponse> GetPromptCompletionAsync(string prompt)
         {
             using (var client = GetOpenApiHttpClient())
             {
-                var httpResponse = await client.PostAsJsonAsync("https://api.openai.com/v1/completions", GetOpenAiCompletionObject(prompt));
-                return await httpResponse.Content.ReadAsAsync<OpenAIApiResponse>();
+                var httpResponse = await client.PostAsJsonAsync("https://api.openai.com/v1/completions", GetOpenAICompletionObject(prompt));
+                return await httpResponse.Content.ReadAsAsync<OpenAIApiCompletionResponse>();
             }
+        }
+        public async Task<OpenAIApiCompletionResponse> GetChatResponseAsync(string prompt)
+        {
+            return null;
+        }
+
+        public async Task<OpenAIApiCompletionResponse> FilterPrompt(string prompt)
+        {
+            return null;
         }
 
         private HttpClient GetOpenApiHttpClient()
@@ -38,11 +48,11 @@ namespace Presence_API.Services.Completion
             return client;
         }
 
-        private Object GetOpenAiCompletionObject(string prompt)
+        private Object GetOpenAICompletionObject(string prompt)
         {
             var basePrompt = string.Join("\n", _basePrompt);
-            prompt += $"\n{Character.Sara}:";
-            var data = new
+            prompt += $"\n{ChatRole.assistant}:";
+            var data = new OpenAICompletionRequest()
             {
                 model = "text-davinci-003",
                 prompt = basePrompt +"\n"+ prompt,
@@ -51,9 +61,22 @@ namespace Presence_API.Services.Completion
                 top_p = 1,
                 frequency_penalty = 0,
                 presence_penalty = 0.6,
-                stop = new string[] { "\n", "\nSara:", "\nChat:" }
+                stop = new List<string>() { "\n", "\nSara:", "\nChat:" }
             };
             Console.WriteLine(data.prompt);
+            return data;
+        }
+
+        private Object GetOpenAIChatObject(string chatPrompt)
+        {
+            var basePrompt = string.Join("\n", _basePrompt);
+            chatPrompt += $"\n{ChatRole.assistant}:";
+            var data = new OpenAIChatRequest()
+            {
+                model= "gpt-3.5-turbo",
+                messages = new List<OpenAIChatRequestMessage>() { }
+            };
+            Console.WriteLine(data.messages);
             return data;
         }
     }

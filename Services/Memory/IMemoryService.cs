@@ -1,15 +1,10 @@
-﻿namespace Presence_API.Services.Memory
-{
-    public enum Character
-    {
-        None = 0,
-        Chat = 1,
-        Sara = 2
-    }
+﻿using Presence_API.Services.Completion.Models;
 
+namespace Presence_API.Services.Memory
+{
     public interface IMemoryService
     {
         string GetMemory();
-        string AddToMemory(Character character, string memoryElement);
+        string AddToMemory(ChatRole chatRole, string memoryElement);
     }
 }

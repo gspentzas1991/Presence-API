@@ -1,4 +1,6 @@
-﻿namespace Presence_API.Services.Memory
+﻿using Presence_API.Services.Completion.Models;
+
+namespace Presence_API.Services.Memory
 {
     public class MemoryService: IMemoryService
     {
@@ -10,17 +12,17 @@
             return string.Join("\n", _memory);
         }
 
-        public string AddToMemory(Character character, string memoryElement)
+        public string AddToMemory(ChatRole chatRole, string memoryElement)
         {
             while(_memory.Count >= _memoryMaxSize)
             {
                 RemoveOldestMemoryPrompt();
             }
-            _memory.Add(GetCharacterText(character,memoryElement));
+            _memory.Add(GetCharacterText(chatRole,memoryElement));
             return GetMemory();
         }
 
-        private string GetCharacterText(Character character, string message)
+        private string GetCharacterText(ChatRole character, string message)
         {
             return $"{character}:{message}";
         }
@@ -36,7 +38,7 @@
             }
             _memory.RemoveAt(0);
             //After removing the oldest memory, if the next memory is by the AI, it's a response and should also be removed
-            var oldestMemoryIsResponse = _memory.Count>0 &&_memory[0].StartsWith(Character.Sara.ToString());
+            var oldestMemoryIsResponse = _memory.Count>0 &&_memory[0].StartsWith(ChatRole.assistant.ToString());
             if (oldestMemoryIsResponse)
             {
                 _memory.RemoveAt(0);
