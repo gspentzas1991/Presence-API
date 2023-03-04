@@ -3,6 +3,8 @@ A Web API project that can be used to receive responses from text prompts. It us
 
 # Usage
 In order to register your OpenAI API Key, you need to create a User Secret file with your API key
+```
 {
   "OpenAIApiKey": "YourApiKey"
 }
+```
