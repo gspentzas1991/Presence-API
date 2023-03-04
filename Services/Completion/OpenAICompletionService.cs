@@ -15,7 +15,7 @@ namespace Presence_API.Services.Completion
             _logger = logger;
             _openAIApiKey = configuration["OpenAIApiKey"];
         }
-        public async Task<OpenAIApiResponse> CompleteAsync(string prompt)
+        public async Task<OpenAIApiResponse> GetPromptCompletionAsync(string prompt)
         {
             using (var client = GetOpenApiHttpClient())
             {

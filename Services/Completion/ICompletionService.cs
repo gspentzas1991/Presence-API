@@ -4,6 +4,6 @@ namespace Presence_API.Services.Completion
 {
     public interface ICompletionService
     {
-        Task<OpenAIApiResponse> CompleteAsync(string prompt);
+        Task<OpenAIApiResponse> GetPromptCompletionAsync(string prompt);
     }
 }

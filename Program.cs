@@ -1,3 +1,4 @@
+using Presence_API.Middleware.Response;
 using Presence_API.Services.Completion;
 using Presence_API.Services.Memory;
 
@@ -15,6 +16,7 @@ internal class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddSingleton<ICompletionService, OpenAICompletionService>();
         builder.Services.AddSingleton<IMemoryService, MemoryService>();
+        builder.Services.AddSingleton<IResponseMiddleware, ResponseMiddleware>();
 
         var app = builder.Build();
 

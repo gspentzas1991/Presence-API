@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Presence_API.Middleware.Response;
 using Presence_API.Services.Completion;
 using Presence_API.Services.Memory;
 
@@ -9,27 +10,21 @@ namespace Presence_API.Controllers
     public class ResponseController : ControllerBase
     {
         private readonly ILogger<ResponseController> _logger;
-        private readonly ICompletionService _completionService;
-        private readonly IMemoryService _memoryService;
+        private readonly IResponseMiddleware _response;
 
-        public ResponseController(ILogger<ResponseController> logger, ICompletionService completionService, IMemoryService memoryService)
+        public ResponseController(ILogger<ResponseController> logger, IResponseMiddleware responseMiddleware)
         {
             _logger = logger;
-            _completionService = completionService; 
-            _memoryService = memoryService; 
+            _response = responseMiddleware;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string chatPrompt)
         {
             try
             {
-                var memory = _memoryService.AddToMemory(Character.Chat,"what will you play today?");
-                var response = await _completionService.CompleteAsync(memory);
-                var firstTextResponse =  response.Choices.FirstOrDefault()?.Text;
-                _memoryService.AddToMemory(Character.Sara, firstTextResponse);
-                Console.WriteLine(_memoryService.GetMemory());
-                return Ok(firstTextResponse);
+                var response = await _response.GetResponseAsync(chatPrompt);
+                return Ok(response);
             }
             catch (Exception ex)
             {
