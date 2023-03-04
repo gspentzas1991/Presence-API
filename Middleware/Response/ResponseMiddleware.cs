@@ -1,6 +1,7 @@
 ﻿using Presence_API.Controllers;
 using Presence_API.Services.Completion;
 using Presence_API.Services.Memory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Presence_API.Middleware.Response
 {
@@ -23,17 +24,16 @@ namespace Presence_API.Middleware.Response
             chatPrompt = TruncatePrompt(chatPrompt);
             var prompt = _memoryService.AddToMemory(Character.Chat, chatPrompt);
             var response = await GetResponseAsync(prompt);
-            _memoryService.AddToMemory(Character.Sara, response);
+            var completeMemory = _memoryService.AddToMemory(Character.Sara, response);
             return response;
         }
 
         public async Task<string> GetResponseAsync(string chatPrompt)
         {
-            chatPrompt = TruncatePrompt(chatPrompt);
             var response = await _completionService.GetPromptCompletionAsync(chatPrompt);
             var firstTextResponse = response.Choices.FirstOrDefault()?.Text;
-            //TODO: Send the response to the TTS service, and notify the Vtuber model to start animating
             Console.WriteLine(firstTextResponse);
+            //TODO: Send the response to the TTS service, and notify the Vtuber model to start animating
             return firstTextResponse;
         }
 
