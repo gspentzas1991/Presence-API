@@ -13,8 +13,8 @@ internal class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddScoped<ICompletionService, OpenAICompletionService>();
-        builder.Services.AddScoped<IMemoryService, MemoryService>();
+        builder.Services.AddSingleton<ICompletionService, OpenAICompletionService>();
+        builder.Services.AddSingleton<IMemoryService, MemoryService>();
 
         var app = builder.Build();
 

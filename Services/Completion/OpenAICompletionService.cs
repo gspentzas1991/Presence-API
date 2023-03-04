@@ -17,25 +17,36 @@ namespace Presence_API.Services.Completion
         }
         public async Task<OpenAIApiResponse> CompleteAsync(string prompt)
         {
-            prompt += $"{Character.Sara}:";
-            using (var client = new HttpClient())
+            using (var client = GetOpenApiHttpClient())
             {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _openAIApiKey);
-                var data = new
-                {
-                    model = "text-davinci-003",
-                    prompt = prompt,
-                    temperature = 0.9,
-                    max_tokens = 150,
-                    top_p = 1,
-                    frequency_penalty = 0,
-                    presence_penalty = 0.6,
-                    stop = new string[] { "\n", "\nSara:", "\nChat:" }
-                };
-                var httpResponse = await client.PostAsJsonAsync("https://api.openai.com/v1/completions", data);
+                var httpResponse = await client.PostAsJsonAsync("https://api.openai.com/v1/completions", GetOpenAiCompletionObject(prompt));
                 return await httpResponse.Content.ReadAsAsync<OpenAIApiResponse>();
             }
+        }
+
+        private HttpClient GetOpenApiHttpClient()
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _openAIApiKey);
+            return client;
+        }
+
+        private Object GetOpenAiCompletionObject(string prompt)
+        {
+            prompt += $"{Character.Sara}:";
+            var data = new
+            {
+                model = "text-davinci-003",
+                prompt = prompt,
+                temperature = 0.9,
+                max_tokens = 150,
+                top_p = 1,
+                frequency_penalty = 0,
+                presence_penalty = 0.6,
+                stop = new string[] { "\n", "\nSara:", "\nChat:" }
+            };
+            return data;
         }
     }
 }
