@@ -23,7 +23,7 @@ namespace Presence_API.Controllers
         {
             try
             {
-                var response = await _response.GetResponseAsync(chatPrompt);
+                var response = await _response.GetResponseInMemoryAsync(chatPrompt);
                 return Ok(response);
             }
             catch (Exception ex)

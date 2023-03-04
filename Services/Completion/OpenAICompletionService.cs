@@ -7,6 +7,11 @@ namespace Presence_API.Services.Completion
 {
     public class OpenAICompletionService: ICompletionService
     {
+        private string _basePrompt =
+        @"Sara is a virtual streamer on Twitch. She is talking to her Twitch channel's chat, and she tries to entertain them. Her responses are polite and sarcastic.
+        Chat:Sara's online!
+        Sara:You bet! Are you ready for another exciting stream with your favourite virtual streamer?
+        ";
         private readonly string? _openAIApiKey;
         private readonly ILogger<OpenAICompletionService> _logger;
 
@@ -38,7 +43,7 @@ namespace Presence_API.Services.Completion
             var data = new
             {
                 model = "text-davinci-003",
-                prompt = prompt,
+                prompt = _basePrompt + prompt,
                 temperature = 0.9,
                 max_tokens = 150,
                 top_p = 1,

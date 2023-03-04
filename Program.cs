@@ -1,4 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using Presence_API.Middleware.Response;
+using Presence_API.Services.Chat;
 using Presence_API.Services.Completion;
 using Presence_API.Services.Memory;
 
@@ -17,8 +19,11 @@ internal class Program
         builder.Services.AddSingleton<ICompletionService, OpenAICompletionService>();
         builder.Services.AddSingleton<IMemoryService, MemoryService>();
         builder.Services.AddSingleton<IResponseMiddleware, ResponseMiddleware>();
+        builder.Services.AddSingleton<IChatService, TwitchChatService>();
 
         var app = builder.Build();
+        //Used to initialize the IChatService
+        app.Services.GetService<IChatService>();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

@@ -8,6 +8,11 @@
         /// <summary>
         /// Adds the chatPrompt to memory and sends the complete memory to the completion service. Then adds the completion response to memory and returns that response
         /// </summary>
+        Task<string> GetResponseInMemoryAsync(string chatPrompt);
+
+        /// <summary>
+        /// Sends the chatPrompt to the completion service, and returns the completion response
+        /// </summary>
         Task<string> GetResponseAsync(string chatPrompt);
     }
 }
