@@ -3,6 +3,7 @@ using Presence_API.Middleware.Response;
 using Presence_API.Services.Chat;
 using Presence_API.Services.Completion;
 using Presence_API.Services.Memory;
+using Presence_API.Services.TextToSpeech;
 
 internal class Program
 {
@@ -20,6 +21,7 @@ internal class Program
         builder.Services.AddSingleton<IMemoryService, MemoryService>();
         builder.Services.AddSingleton<IResponseMiddleware, ResponseMiddleware>();
         builder.Services.AddSingleton<IChatService, TwitchChatService>();
+        builder.Services.AddSingleton<ITextToSpeechService, MicrosoftSpeechService>();
 
         var app = builder.Build();
         //Used to initialize the IChatService

@@ -19,7 +19,7 @@ namespace Presence_API.Services.Completion
         public OpenAICompletionService(ILogger<OpenAICompletionService> logger, IConfiguration configuration)
         {
             _logger = logger;
-            _openAIApiKey = configuration["OpenAIApiKey"];
+            _openAIApiKey = configuration["OpenAI:ApiKey"];
         }
         public async Task<OpenAIApiResponse> GetPromptCompletionAsync(string prompt)
         {

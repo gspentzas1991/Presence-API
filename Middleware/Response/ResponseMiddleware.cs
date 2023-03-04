@@ -1,6 +1,7 @@
 ﻿using Presence_API.Controllers;
 using Presence_API.Services.Completion;
 using Presence_API.Services.Memory;
+using Presence_API.Services.TextToSpeech;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Presence_API.Middleware.Response
@@ -11,12 +12,14 @@ namespace Presence_API.Middleware.Response
         private readonly ILogger<ResponseMiddleware> _logger;
         private readonly ICompletionService _completionService;
         private readonly IMemoryService _memoryService;
+        private readonly ITextToSpeechService _textToSpeechService;
 
-        public ResponseMiddleware(ILogger<ResponseMiddleware> logger, ICompletionService completionService, IMemoryService memoryService)
+        public ResponseMiddleware(ILogger<ResponseMiddleware> logger, ICompletionService completionService, IMemoryService memoryService, ITextToSpeechService textToSpeechService)
         {
             _logger = logger;
             _completionService = completionService;
             _memoryService = memoryService;
+            _textToSpeechService = textToSpeechService;
         }
 
         public async Task<string> GetResponseInMemoryAsync(string chatPrompt)
@@ -33,6 +36,7 @@ namespace Presence_API.Middleware.Response
             var response = await _completionService.GetPromptCompletionAsync(chatPrompt);
             var firstTextResponse = response.Choices.FirstOrDefault()?.Text;
             Console.WriteLine(firstTextResponse);
+            _textToSpeechService.TalkAsync(firstTextResponse);
             //TODO: Send the response to the TTS service, and notify the Vtuber model to start animating
             return firstTextResponse;
         }
