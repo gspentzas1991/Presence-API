@@ -1,5 +1,5 @@
 # Presence API
-A Web API project that can be used to receive Twitch chats, and respond to them using TTS. It uses the OpenAI API to create the responses, and saves the last 10 pieces of conversation to memory, in order for the chat to make sense. For the TTS it uses microsoft's speech service
+A Web API project that can be used to receive Twitch chats, and respond to them using TTS. It uses the OpenAI API to create the responses, and saves the last 10 pieces of conversation to memory, in order for the chat to make sense. For the TTS it uses [Microsoft's cognitive service (speech)](https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/)
 
 # Requirements
 Requires to also pull the [ChatGPT-API project](https://github.com/gspentzas1991/ChatGPT-API)
