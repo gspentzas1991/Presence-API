@@ -1,9 +1,6 @@
-﻿using Presence_API.Controllers;
-using Presence_API.Services.Completion;
-using Presence_API.Services.Completion.Models;
-using Presence_API.Services.Memory;
+﻿using Presence_API.Services.Memory;
 using Presence_API.Services.TextToSpeech;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using OpenAIApi.Services;
 
 namespace Presence_API.Middleware.Response
 {
@@ -11,14 +8,14 @@ namespace Presence_API.Middleware.Response
     {
         private readonly int _maxChatPromptLength = 120;
         private readonly ILogger<ResponseMiddleware> _logger;
-        private readonly ICompletionService _completionService;
+        private readonly IAIService _aiService;
         private readonly IMemoryService _memoryService;
         private readonly ITextToSpeechService _textToSpeechService;
 
-        public ResponseMiddleware(ILogger<ResponseMiddleware> logger, ICompletionService completionService, IMemoryService memoryService, ITextToSpeechService textToSpeechService)
+        public ResponseMiddleware(ILogger<ResponseMiddleware> logger, IAIService aIService, IMemoryService memoryService, ITextToSpeechService textToSpeechService)
         {
             _logger = logger;
-            _completionService = completionService;
+            _aiService = aIService;
             _memoryService = memoryService;
             _textToSpeechService = textToSpeechService;
         }
@@ -27,17 +24,17 @@ namespace Presence_API.Middleware.Response
         {
             chatPrompt = TruncatePrompt(chatPrompt);
             //Ask the filter if the question has bad words
-            var prompt = _memoryService.AddToMemory(ChatRole.user, chatPrompt);
-            var response = await GetResponseAsync(prompt);
+            //var prompt = _memoryService.AddToMemory(ChatRole.user, chatPrompt);
+            var response = await GetResponseAsync(chatPrompt);
             //Ask the filter if the question had bad words
-            var completeMemory = _memoryService.AddToMemory(ChatRole.assistant, response);
+            //var completeMemory = _memoryService.AddToMemory(ChatRole.assistant, response);
             return response;
         }
 
         public async Task<string> GetResponseAsync(string chatPrompt)
         {
-            var response = await _completionService.GetPromptCompletionAsync(chatPrompt);
-            var firstTextResponse = response.Choices.FirstOrDefault()?.Text;
+            var response = await _aiService.GetCompletionResponseAsync(chatPrompt);
+            var firstTextResponse = response.choices.FirstOrDefault()?.text;
             Console.WriteLine(firstTextResponse);
             _textToSpeechService.TalkAsync(firstTextResponse);
             //TODO: Send the response to the TTS service, and notify the Vtuber model to start animating

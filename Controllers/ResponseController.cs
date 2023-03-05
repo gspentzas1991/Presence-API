@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Presence_API.Middleware.Response;
-using Presence_API.Services.Completion;
-using Presence_API.Services.Memory;
 
 namespace Presence_API.Controllers
 {

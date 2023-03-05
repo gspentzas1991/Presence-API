@@ -1,5 +1,4 @@
 ﻿using Presence_API.Middleware.Response;
-using Presence_API.Services.Completion;
 using TwitchLib.Api.ThirdParty.UsernameChange;
 using TwitchLib.Client;
 using TwitchLib.Client.Enums;
